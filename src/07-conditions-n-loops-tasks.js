@@ -189,8 +189,23 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let result;
+  let counter = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    for (let j = 0; j < str.length; j += 1) {
+      if (str[i] !== str[j]) {
+        counter += 1;
+      }
+    }
+
+    if (counter === str.length - 1) {
+      result = str[i];
+    }
+    if (result) break;
+    counter = 0;
+  }
+  return result;
 }
 
 
@@ -325,8 +340,23 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  const map = {
+    '[': ']', '(': ')', '{': '}', '<': '>',
+  };
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === '[' || str[i] === '(' || str[i] === '{' || str[i] === '<') {
+      stack.push(str[i]);
+    } else {
+      const last = stack.pop();
+      if (map[last] !== str[i]) {
+        return false;
+      }
+    }
+  }
+  if (stack.length > 0) return false;
+  return true;
 }
 
 
@@ -350,8 +380,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -367,8 +397,22 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const arrWithArrsOfPaths = [];
+  for (let i = 0; i < pathes.length; i += 1) {
+    arrWithArrsOfPaths.push(pathes[i].split('/'));
+  }
+  for (let i = 0; i < arrWithArrsOfPaths[0].length; i += 1) {
+    for (let j = 1; j < pathes.length; j += 1) {
+      if (arrWithArrsOfPaths[0][i] !== arrWithArrsOfPaths[j][i]) {
+        if (i === 0) {
+          return `${arrWithArrsOfPaths[0].slice(0, i).join('/')}`;
+        }
+        return `${arrWithArrsOfPaths[0].slice(0, i).join('/')}/`;
+      }
+    }
+  }
+  return arrWithArrsOfPaths[0].join('/');
 }
 
 
