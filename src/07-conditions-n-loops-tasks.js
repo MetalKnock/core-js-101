@@ -290,8 +290,22 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const isOdd = String(ccn).length % 2 !== 0;
+  const arrNumbers = String(ccn).split('');
+  for (let i = 0; i < arrNumbers.length; i += 1) {
+    let newValue;
+    if (isOdd ? i % 2 !== 0 : i % 2 === 0) {
+      newValue = Number(arrNumbers[i] * 2);
+      if (newValue > 9) {
+        newValue = String(newValue).split('').reduce((acc, val) => acc + Number(val), 0);
+      }
+    } else {
+      newValue = Number(arrNumbers[i]);
+    }
+    arrNumbers[i] = newValue;
+  }
+  return arrNumbers.reduce((acc, val) => acc + val, 0) % 10 === 0;
 }
 
 /**
@@ -434,10 +448,22 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
-}
+function getMatrixProduct(m1, m2) {
+  const matrixProduct = [];
+  matrixProduct.length = m1.length;
 
+  for (let i = 0; i < m1.length; i += 1) {
+    matrixProduct[i] = [];
+    matrixProduct[i].length = m2[i].length;
+    for (let j = 0; j < m2[i].length; j += 1) {
+      matrixProduct[i][j] = 0;
+      for (let u = 0; u < m1[0].length; u += 1) {
+        matrixProduct[i][j] += m1[i][u] * m2[u][j];
+      }
+    }
+  }
+  return matrixProduct;
+}
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
@@ -469,8 +495,30 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < position.length; i += 1) {
+    if (position[0][i] === position[1][i] && position[0][i] === position[2][i]) {
+      if ((position[0][i] === 'X' || position[0][i] === '0')) {
+        return position[0][i];
+      }
+    }
+    if (position[i][0] === position[i][1] && position[i][0] === position[i][2]) {
+      if ((position[i][0] === 'X' || position[i][0] === '0')) {
+        return position[i][0];
+      }
+    }
+  }
+  if (position[0][0] === position[1][1] && position[0][0] === position[2][2]) {
+    if ((position[0][0] === 'X' || position[0][0] === '0')) {
+      return position[0][0];
+    }
+  }
+  if (position[0][2] === position[1][1] && position[0][2] === position[2][0]) {
+    if ((position[0][2] === 'X' || position[0][2] === '0')) {
+      return position[0][2];
+    }
+  }
+  return undefined;
 }
 
 
